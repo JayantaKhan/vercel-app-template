@@ -1,9 +1,8 @@
 "use client";
-import { Button, Divider, Flex, Text, Title } from "@mantine/core";
+import { Divider, Flex } from "@mantine/core";
 import UserPost from "./UserPost";
-import React, { useEffect, useState } from 'react';
-import { useRecoilState } from "recoil";
-import userAtom from "./userAtom";
+import React, { useEffect, useState } from "react";
+
 
 function HomePage() {
   const [users, setUsers] = useState([]);
@@ -11,35 +10,47 @@ function HomePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/users');
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/users"
+        );
         if (response.ok) {
           const data = await response.json();
           setUsers(data.slice(0, 10)); // Get the first 10 users
-          console.log('Fetched data:', data); 
+          console.log("Fetched data:", data);
         } else {
-          console.error('Error fetching users:', response.status);
+          console.error("Error fetching users:", response.status);
         }
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error("Error fetching users:", error);
       }
     };
 
     fetchData();
   }, []);
 
-
-
-  return <>
- <Flex c={"red"} justify={"enter"} align={"center"} fs={700} w={"full"}>Sahil Sk</Flex>
-  <Divider my="md" />
-  <Flex wrap={"wrap"}>
-
+  return (
+    <Flex
+      direction="column"
+      align="center"
+      justify="center"
+      style={{
+        minHeight: "100vh",
+        marginLeft: "2px",
+        marginRight: "2px",
+        marginTop: "2px",
+      }}
+    >
+      <Flex c={"blue"} justify-={"enter"} align={"center"} fs={700} w={"full"}>
+        Jayanta Khan
+      </Flex>
+      <Divider my="md" />
+      <Flex wrap={"wrap"} justify="center">
         {users.map((user) => (
-          
-          <UserPost userData={user}  />
+          <UserPost key={user.id} userData={user} />
         ))}
+      </Flex>
     </Flex>
-    </>;
+  );
 }
 
 export default HomePage;
